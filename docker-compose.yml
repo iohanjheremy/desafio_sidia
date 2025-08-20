@@ -4,13 +4,23 @@ services:
     env_file:
       - .env
     container_name: django-backend
-    command: bash -c "sleep infinity"
+    command: sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/app
     ports:
       - "8000:8000"
     depends_on:
       - db
+    environment:
+      DB_NAME: fifa21
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_HOST: db
+      DB_PORT: 5432
+
+    networks:
+      - fifa21-network
 
   frontend:
     build: ./frontend
@@ -26,6 +36,10 @@ services:
   db:
     image: postgres:15
     container_name: postgres-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: fifa21
     env_file:
       - .env
     ports:
@@ -33,5 +47,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    networks:
+      - fifa21-network
+
 volumes:
   postgres_data:
+  
+networks:
+  fifa21-network:

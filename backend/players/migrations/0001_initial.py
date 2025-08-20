@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('overall', models.IntegerField()),
                 ('real_face', models.URLField()),
                 ('potential', models.IntegerField()),
-                ('value_eur', models.FloatField(blank=True)),
+                ('value_eur', models.FloatField(null=True, blank=True)),
             ],
         ),
     ]

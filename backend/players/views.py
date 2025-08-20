@@ -46,10 +46,21 @@ class PlayerFilterView(generics.ListAPIView):
             queryset = queryset.filter(nationality__icontains=nationality)
         if player_positions:
             queryset = queryset.filter(player_positions__icontains=player_positions)
+            
         if age_min:
-            queryset = queryset.filter(age__gte=age_min)
+            try:
+                age_min = int(age_min)
+                queryset = queryset.filter(age__gte=age_min)
+            except ValueError:
+                pass
+            
         if age_max:
-            queryset = queryset.filter(age__lte=age_max)
+            try:
+                age_max = int(age_max)
+                queryset = queryset.filter(age__lte=age_max)
+            except ValueError:
+                pass
+            
         if overall_min:
             queryset = queryset.filter(overall__gte=overall_min)
         if overall_max:
@@ -153,11 +164,43 @@ class BestTeamView(APIView):
         }
         
         team = []
+        used_players = set()
+        
         for position, count in positions.items():
             players = queryset.filter(
                 player_positions__icontains=position
-            ).order_by('-overall')[:count]
-            team.extend(players)
+            ).order_by('-overall')
+            chosen = 0
+            for player in players:
+                if player.sofifa_id not in used_players:
+                    team.append({"player": player, "position": position})
+                    used_players.add(player.sofifa_id)
+                    chosen += 1
+                if chosen >= count:
+                    break
         
-        serializer = PlayerSerializer(team, many=True)
-        return Response(serializer.data)
+        if len(team) < 11:
+            remaining = queryset.exclude(sofifa_id__in=used_players).order_by('-overall')
+            for player in remaining:
+                for pos, cnt in positions.items():
+                    current_count = len([t for t in team if t["position"] == pos])
+                    if current_count < cnt:
+                        team.append({"player": player, "position": pos})
+                        used_players.add(player.sofifa_id)
+                        break
+                if len(team) >= 11:
+                    break
+        
+                
+        # Serializa jogadores + posição escolhida
+        result = []
+        for item in team:
+            player = item.get("player")
+            
+            if isinstance(player, Player):
+                player_data = PlayerSerializer(player).data
+                player_data["chosen_position"] = item.get("position", "")
+                result.append(player_data)
+
+
+        return Response(result)
