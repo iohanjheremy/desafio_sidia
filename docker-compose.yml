@@ -4,6 +4,7 @@ services:
     env_file:
       - .env
     container_name: django-backend
+
     command: sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
@@ -32,6 +33,8 @@ services:
       - "5173:5173"
     depends_on:
       - backend
+    networks:
+      - fifa21-network
 
   db:
     image: postgres:15
@@ -55,3 +58,5 @@ volumes:
   
 networks:
   fifa21-network:
+    driver: bridge
+

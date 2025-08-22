@@ -12,6 +12,7 @@ class Player(models.Model):
     player_positions = models.CharField(max_length=50)
     overall = models.IntegerField()
     real_face = models.URLField()
+    real_face_local = models.CharField(max_length=255, blank=True, null=True)
     potential = models.IntegerField()
     value_eur = models.FloatField(null=False, blank=True)
 

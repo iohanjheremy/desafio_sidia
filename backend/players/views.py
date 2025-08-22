@@ -1,5 +1,12 @@
+import os
+import urllib.request
+from django.core.files import File
+from django.http import HttpResponse
+from django.views import View
 from django.shortcuts import render
 from rest_framework import generics, status
+from django.conf import settings
+from django.http import FileResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Q
@@ -204,3 +211,25 @@ class BestTeamView(APIView):
 
 
         return Response(result)
+
+
+class SofifaImageProxy(View):
+    def get(self, request, sofifa_id: int):
+        """
+        Proxy para imagens do Sofifa.
+        URL: /api/players/image/<sofifa_id>/
+        """
+        # Converte o ID para string e cria o path da imagem
+        sofifa_id_str = str(sofifa_id).zfill(6)  # garante 6 dígitos
+        year = sofifa_id_str[:3]
+        rest = sofifa_id_str[3:]
+        image_url = f"https://cdn.sofifa.net/players/{year}/{rest}/25_120.png"
+
+        try:
+            response = urllib.requests.get(image_url, timeout=5)
+            response.raise_for_status()
+        except urllib.requests.RequestException:
+            return HttpResponse(status=404)
+
+        content_type = response.headers.get('Content-Type', 'image/png')
+        return HttpResponse(response.content, content_type=content_type)
