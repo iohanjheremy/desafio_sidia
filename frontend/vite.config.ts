@@ -5,13 +5,18 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }): UserConfig => {
+  // Usar variável de ambiente para o target do proxy
+  // No desenvolvimento local: VITE_BACKEND_URL=http://localhost:8000
+  // No Docker: VITE_BACKEND_URL=http://backend:8000
+  const backendUrl = process.env.VITE_BACKEND_URL || 'http://localhost:8000';
+  
   return {
     server: {
       host: true,
       port: 5173,
       proxy: {
         '/api': {
-          target: 'http://backend:8000',
+          target: backendUrl,
           changeOrigin: true,
         },
       },

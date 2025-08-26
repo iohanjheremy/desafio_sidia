@@ -1,0 +1,31 @@
+# ======================
+# Python / Django
+# ======================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pkl
+*.env
+*.venv/
+env/
+venv/
+ENV/
+env.bak/
+*.swp
+*.swo
+*.DS_Store
+
+# Django media files (player images)
+media/
+# Se quiser, pode especificar apenas a pasta das imagens:
+# media/player_images/
+
+# Django migrations
+*/migrations/*.py
+*/migrations/*.pyc
+!*/migrations/__init__.p

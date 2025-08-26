@@ -1,7 +1,7 @@
 import os
-import urllib.request
+import requests
 from django.core.files import File
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views import View
 from django.shortcuts import render
 from rest_framework import generics, status
@@ -17,7 +17,7 @@ from .pagination import StandardResultsSetPagination
 # List all players (with pagination)
 class PlayerListView(generics.ListAPIView):
     serializer_class = PlayerSerializer
-    queryset = Player.objects.all()
+    queryset = Player.objects.all().order_by('-overall')
     pagination_class = StandardResultsSetPagination
 
 # Filter players by various criteria
@@ -213,23 +213,17 @@ class BestTeamView(APIView):
         return Response(result)
 
 
-class SofifaImageProxy(View):
+class PlayerImageView(View):
     def get(self, request, sofifa_id: int):
-        """
-        Proxy para imagens do Sofifa.
-        URL: /api/players/image/<sofifa_id>/
-        """
-        # Converte o ID para string e cria o path da imagem
-        sofifa_id_str = str(sofifa_id).zfill(6)  # garante 6 dígitos
-        year = sofifa_id_str[:3]
-        rest = sofifa_id_str[3:]
-        image_url = f"https://cdn.sofifa.net/players/{year}/{rest}/25_120.png"
-
         try:
-            response = urllib.requests.get(image_url, timeout=5)
-            response.raise_for_status()
-        except urllib.requests.RequestException:
-            return HttpResponse(status=404)
+            player = Player.objects.get(sofifa_id=sofifa_id)
+            if not player.real_face_local:
+                raise Http404("Player image not found")
 
-        content_type = response.headers.get('Content-Type', 'image/png')
-        return HttpResponse(response.content, content_type=content_type)
+            # Use o atributo 'path' do ImageFieldFile para pegar o caminho físico
+            filepath = player.real_face_local.path
+            return FileResponse(open(filepath, 'rb'), content_type='image/png')
+
+        except Player.DoesNotExist:
+            raise Http404("Player not found")
+    

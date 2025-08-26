@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import PlayerListView, PlayerFilterView, TopKPlayersView, PlayerDetailView, PlayerSearchView, TopPlayersByCriteriaView, BestTeamView, SofifaImageProxy
+from .views import PlayerListView, PlayerFilterView, TopKPlayersView, PlayerDetailView, PlayerSearchView, TopPlayersByCriteriaView, BestTeamView, PlayerImageView
 
 urlpatterns = [
     path('players/', PlayerListView.as_view(), name='players-list'),
@@ -11,7 +11,7 @@ urlpatterns = [
     path('players/<int:sofifa_id>/', PlayerDetailView.as_view(), name='player-detail'),
     path('players/top-by-criteria/', TopPlayersByCriteriaView.as_view(), name='players-top-k-by-criteria'),
     path('players/best-team/', BestTeamView.as_view(), name='best-team'),
-    path('players/image/<int:sofifa_id>/', SofifaImageProxy.as_view(), name='sofifa-image-proxy'),
+    path('players/image/<int:sofifa_id>/', PlayerImageView.as_view(), name='player-image'),
 ]
 
 

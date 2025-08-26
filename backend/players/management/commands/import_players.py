@@ -16,10 +16,15 @@ class Command(BaseCommand):
 
             for row in reader:
                 try:
-                    sofifa_id = int(row["sofifa_id"])  # força int
+                    sofifa_id = row["sofifa_id"]
                 except ValueError:
                     self.stdout.write(self.style.ERROR(f"ID inválido: {row['sofifa_id']}"))
                     continue
+
+                folder = sofifa_id[:3]
+                file = sofifa_id[3:]
+                real_face_url = f"https://cdn.sofifa.net/players/{folder}/{file}/21_120.png"
+
 
                 Player.objects.update_or_create(
                     sofifa_id=sofifa_id,
@@ -35,7 +40,7 @@ class Command(BaseCommand):
                         "overall": row.get("overall"),
                         "potential": row.get("potential"),
                         "value_eur": row.get("value_eur"),
-                        "real_face_local": f"https://cdn.sofifa.net/players/{str(sofifa_id).zfill(6)}/25_120.png",
+                        "real_face_local": real_face_url,
                     },
                 )
 
