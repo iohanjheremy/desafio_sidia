@@ -22,8 +22,8 @@ Plataforma para listagem e gerenciamento de jogadores, construída com **Django 
 
 ### 2. Clonar o repositório
 ```bash
-git clone https://github.com/iohanjheremy/desafio_sidia.git
-cd 
+git clone https://github.com/iohanjheremy/fifa21_app.git
+cd fifa21_app
 ````
 
 ---
@@ -33,20 +33,20 @@ cd
 Crie um arquivo `.env` na raiz do projeto, exemplo:
 
 ```env
-# Banco de dados
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin123
 POSTGRES_DB=fifa21
-POSTGRES_USER=fifauser
-POSTGRES_PASSWORD=fifapass
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-
-# Backend
-DJANGO_SECRET_KEY=sua_chave_secreta_aqui
+DJANGO_SECRET_KEY=your_secret_key_here
 DJANGO_DEBUG=True
-DJANGO_ALLOWED_HOSTS=*
 
-# Frontend
-VITE_API_URL=http://localhost:8000/api
+
+DB_NAME=fifa21
+DB_USER=admin
+DB_PASSWORD=admin123
+DB_HOST=db
+DB_PORT=5432
+
+VITE_BACKEND_PUBLIC_URL=http://localhost:8000
 ```
 
 ---
@@ -77,8 +77,12 @@ Dentro do container, rode:
 
 ```bash
 python manage.py migrate
-python manage.py createsuperuser  # criar usuário admin
-python manage.py import_players /app/data/players_21.csv  # importar jogadores
+python manage.py createsuperuser
+python manage.py import_players /app/data/players_21.csv
+
+mkdir -p media
+
+python manage.py download_all_images
 ```
 
 ---
@@ -115,7 +119,7 @@ docker-compose down
 ## 📌 Observações
 
 * Algumas imagens de jogadores podem não existir na API do Sofifa.
-* Para jogadores famosos (Messi, CR7, Mbappé), as imagens foram armazenadas localmente em `/public/player_images`.
+* Para jogadores famosos (Messi, CR7, Mbappé), as imagens foram armazenadas localmente em `/media/players_images`.
 
 ---
 
@@ -123,9 +127,3 @@ docker-compose down
 
 Este projeto é open-source sob a licença MIT.
 
-```
-
----
-
-👉 Quer que eu adicione também **uma seção sobre como popular o banco de imagens locais (Messi, CR7, Mbappé, etc.)** para não depender do Sofifa em produção?
-```
