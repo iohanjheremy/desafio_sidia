@@ -80,11 +80,15 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py import_players /app/data/players_21.csv
 
+```
+Fora do container, rode:
+```bash
 mkdir -p media
-
+```
+Novamente dentro do container, rode: 
+```bash
 python manage.py download_all_images
 ```
-
 ---
 
 ### 6. Acessar o projeto
