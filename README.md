@@ -23,7 +23,7 @@ Plataforma para listagem e gerenciamento de jogadores, construída com **Django 
 ### 2. Clonar o repositório
 ```bash
 git clone https://github.com/iohanjheremy/desafio_sidia.git
-cd fifaplayers
+cd 
 ````
 
 ---
