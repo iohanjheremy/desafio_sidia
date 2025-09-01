@@ -1,91 +1,93 @@
-# FIFA 21 Players REST API Documentation
+# Documentação da API REST de Jogadores do FIFA 21
 
-## Overview
-This REST API provides comprehensive access to FIFA 21 player data with advanced filtering, ranking, and team formation capabilities.
+## Visão Geral
+Esta API REST oferece acesso abrangente aos dados de jogadores do FIFA 21 com recursos avançados de filtragem, ranking e formação de times.
 
-## Base URL
+## URL Base
 ```
+
 http://localhost:8000/api/
-```
+
+````
 
 ## Endpoints
 
-### 1. List All Players (with Pagination)
+### 1. Listar Todos os Jogadores (com Paginação)
 **GET** `/api/players/`
-- **Description**: List all players with pagination support
-- **Parameters**:
-  - `page` (optional): Page number (default: 1)
-  - `page_size` (optional): Items per page (default: 20, max: 100)
-- **Example**: `/api/players/?page=2&page_size=50`
+- **Descrição**: Lista todos os jogadores com suporte a paginação
+- **Parâmetros**:
+  - `page` (opcional): Número da página (padrão: 1)
+  - `page_size` (opcional): Itens por página (padrão: 20, máx: 100)
+- **Exemplo**: `/api/players/?page=2&page_size=50`
 
-### 2. Get Player Details
+### 2. Obter Detalhes do Jogador
 **GET** `/api/players/{sofifa_id}/`
-- **Description**: Get detailed information about a specific player including photo
-- **Example**: `/api/players/158023/`
+- **Descrição**: Obtém informações detalhadas sobre um jogador específico, incluindo foto
+- **Exemplo**: `/api/players/158023/`
 
-### 3. Filter Players
+### 3. Filtrar Jogadores
 **GET** `/api/players/filter/`
-- **Description**: Filter players by multiple criteria
-- **Parameters**:
-  - `short_name`: Filter by short name (partial match)
-  - `long_name`: Filter by full name (partial match)
-  - `club_name`: Filter by club name
-  - `league_name`: Filter by league name
-  - `nationality`: Filter by nationality
-  - `player_positions`: Filter by position (e.g., "ST", "CM", "GK")
-  - `age_min`: Minimum age
-  - `age_max`: Maximum age
-  - `overall_min`: Minimum overall rating
-  - `overall_max`: Maximum overall rating
-- **Example**: `/api/players/filter/?nationality=Brazil&player_positions=ST&overall_min=85`
+- **Descrição**: Filtra jogadores por múltiplos critérios
+- **Parâmetros**:
+  - `short_name`: Filtrar por nome curto (correspondência parcial)
+  - `long_name`: Filtrar por nome completo (correspondência parcial)
+  - `club_name`: Filtrar por nome do clube
+  - `league_name`: Filtrar por nome da liga
+  - `nationality`: Filtrar por nacionalidade
+  - `player_positions`: Filtrar por posição (ex: "ST", "CM", "GK")
+  - `age_min`: Idade mínima
+  - `age_max`: Idade máxima
+  - `overall_min`: Nota geral mínima
+  - `overall_max`: Nota geral máxima
+- **Exemplo**: `/api/players/filter/?nationality=Brazil&player_positions=ST&overall_min=85`
 
-### 4. Search Players by Name
+### 4. Buscar Jogadores por Nome
 **GET** `/api/players/search/`
-- **Description**: Search players by name (searches both short and long names)
-- **Parameters**:
-  - `q`: Search query
-- **Example**: `/api/players/search/?q=Messi`
+- **Descrição**: Busca jogadores por nome (busca em nomes curtos e longos)
+- **Parâmetros**:
+  - `q`: Termo de busca
+- **Exemplo**: `/api/players/search/?q=Messi`
 
-### 5. Top K Players
+### 5. Top K Jogadores
 **GET** `/api/players/top-k/`
-- **Description**: Get top K players by overall rating with optional filtering
-- **Parameters**:
-  - `k`: Number of top players (default: 10)
-  - `player_positions`: Filter by position
-  - `nationality`: Filter by nationality
-  - `league_name`: Filter by league
-  - `club_name`: Filter by club
-- **Example**: `/api/players/top-k/?k=5&nationality=Argentina`
+- **Descrição**: Obtém os Top K jogadores por nota geral com filtragem opcional
+- **Parâmetros**:
+  - `k`: Número de jogadores (padrão: 10)
+  - `player_positions`: Filtrar por posição
+  - `nationality`: Filtrar por nacionalidade
+  - `league_name`: Filtrar por liga
+  - `club_name`: Filtrar por clube
+- **Exemplo**: `/api/players/top-k/?k=5&nationality=Argentina`
 
-### 6. Top Players by Criteria
+### 6. Top Jogadores por Critério
 **GET** `/api/players/top-by-criteria/`
-- **Description**: Get top K players filtered by specific criteria
-- **Parameters**:
-  - `k`: Number of top players (default: 10)
-  - `criteria`: Filter type ('position', 'nationality', 'league', 'club')
-  - `value`: Filter value
-- **Examples**:
+- **Descrição**: Obtém os Top K jogadores filtrados por um critério específico
+- **Parâmetros**:
+  - `k`: Número de jogadores (padrão: 10)
+  - `criteria`: Tipo de critério ('position', 'nationality', 'league', 'club')
+  - `value`: Valor do critério
+- **Exemplos**:
   - `/api/players/top-by-criteria/?k=10&criteria=position&value=ST`
   - `/api/players/top-by-criteria/?k=5&criteria=league&value=Premier League`
 
-### 7. Best Team Formation
+### 7. Melhor Formação de Time
 **GET** `/api/players/best-team/`
-- **Description**: Get the best possible team formation
-- **Parameters**:
-  - `formation`: Team formation (default: '4-3-3')
-  - `league_name`: Filter by league (optional)
-  - `nationality`: Filter by nationality (optional)
-- **Example**: `/api/players/best-team/?league_name=La Liga`
+- **Descrição**: Obtém a melhor formação de time possível
+- **Parâmetros**:
+  - `formation`: Formação do time (padrão: '4-3-3')
+  - `league_name`: Filtrar por liga (opcional)
+  - `nationality`: Filtrar por nacionalidade (opcional)
+- **Exemplo**: `/api/players/best-team/?league_name=La Liga`
 
-## Response Format
+## Formato da Resposta
 
-All endpoints return JSON responses with the following structure:
+Todos os endpoints retornam respostas em formato JSON com a seguinte estrutura:
 
-### Player Object
+### Objeto Jogador
 ```json
 {
   "sofifa_id": 158023,
-  "player_url": "https://sofifa.com/player/158023",
+  "player_url": "[https://sofifa.com/player/158023](https://sofifa.com/player/158023)",
   "short_name": "L. Messi",
   "long_name": "Lionel Andrés Messi Cuccittini",
   "age": 34,
@@ -94,13 +96,14 @@ All endpoints return JSON responses with the following structure:
   "nationality": "Argentina",
   "player_positions": "RW, ST, CF",
   "overall": 93,
-  "real_face": "https://cdn.sofifa.net/players/158/023/21_120.png",
+  "real_face": "[https://cdn.sofifa.net/players/158/023/21_120.png](https://cdn.sofifa.net/players/158/023/21_120.png)",
   "potential": 93,
   "value_eur": 95500000.0
 }
-```
+````
 
-### Paginated Response
+### Resposta Paginada
+
 ```json
 {
   "count": 18945,
@@ -110,29 +113,37 @@ All endpoints return JSON responses with the following structure:
 }
 ```
 
-## Error Handling
+## Tratamento de Erros
 
-- **404 Not Found**: When a player ID doesn't exist
-- **400 Bad Request**: When invalid parameters are provided
-- **500 Internal Server Error**: For server-side issues
+  - **404 Not Found**: Quando um ID de jogador não existe
+  - **400 Bad Request**: Quando parâmetros inválidos são fornecidos
+  - **500 Internal Server Error**: Para problemas do lado do servidor
 
-## Usage Examples
+## Exemplos de Uso
 
-### Get Top 5 Brazilian Players
+### Obter os 5 Melhores Jogadores Brasileiros
+
 ```
 GET /api/players/top-k/?k=5&nationality=Brazil
 ```
 
-### Get Best Team from Premier League
+### Obter o Melhor Time da Premier League
+
 ```
 GET /api/players/best-team/?league_name=Premier League
 ```
 
-### Search for Players Named "Cristiano"
+### Buscar por Jogadores Chamados "Cristiano"
+
 ```
 GET /api/players/search/?q=Cristiano
 ```
 
-### Filter Young Talents (Age 18-22, Overall 75+)
+### Filtrar Jovens Talentos (Idade 18-22, Nota Geral 75+)
+
 ```
 GET /api/players/filter/?age_min=18&age_max=22&overall_min=75
+```
+
+```
+```

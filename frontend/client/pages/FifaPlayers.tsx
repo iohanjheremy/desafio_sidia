@@ -275,16 +275,12 @@ export default function FifaPlayers() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">FIFA 21 Players</h1>
           <p className="text-muted-foreground">Explore and discover football players from FIFA 21 database</p>
-
-
-
           {apiError && <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg"><p className="text-yellow-800 text-sm">{apiError}</p></div>}
         </div>
         {/* Botão de Dark Mode */}
         <Button onClick={toggleDarkMode} className="fixed top-4 right-4 z-50">
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </Button>
-
         {/* Tabs */}
         <div className="flex space-x-2 mb-6">
           <Button variant={viewMode === 'list' ? 'default' : 'outline'} onClick={() => setViewMode('list')} className="flex items-center space-x-2"><Search className="w-4 h-4" /><span>Players</span></Button>
