@@ -144,6 +144,3 @@ GET /api/players/search/?q=Cristiano
 ```
 GET /api/players/filter/?age_min=18&age_max=22&overall_min=75
 ```
-
-```
-```
