@@ -1,4 +1,4 @@
-# FifaPlayers App
+# Fifa21 App
 
 Plataforma para listagem e gerenciamento de jogadores, construída com **Django (backend)** e **React (frontend)**, rodando em containers **Docker**.  
 
