@@ -11,7 +11,7 @@ Plataforma para listagem e gerenciamento de jogadores, construída com **Django 
 
 ---
 
-## 🚀 Como rodar o projeto em outro PC
+## 🚀 Como rodar o projeto
 
 ### 1. Pré-requisitos
 - [Docker](https://docs.docker.com/get-docker/) instalado  
